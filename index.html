@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seiya Coffee — Luxury Coffee for Every Moment</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --charcoal: #1C1C1C;
+    --charcoal2: #2C2C2C;
+    --charcoal3: #3a3a3a;
+    --beige: #E8E3DC;
+    --beige2: #d4cfc7;
+    --gold: #C6A96E;
+    --gold2: #d4b87a;
+    --gold3: #a88a50;
+    --white: #FFFFFF;
+    --gray: #aaa;
+    --light-gray: #888;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--charcoal);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--charcoal2); }
+  ::-webkit-scrollbar-thumb { background: var(--gold3); border-radius: 3px; }
+
+  /* NAVBAR */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 72px;
+    background: rgba(28,28,28,0.72);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(198,169,110,0.25);
+    transition: all 0.3s ease;
+  }
+  nav.scrolled {
+    background: rgba(28,28,28,0.95);
+    border-bottom-color: rgba(198,169,110,0.45);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.55rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-shadow: 0 0 18px rgba(198,169,110,0.5);
+    cursor: pointer;
+    transition: text-shadow 0.3s;
+  }
+  .nav-logo:hover { text-shadow: 0 0 32px rgba(198,169,110,0.85); }
+  .nav-menu { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-menu a {
+    color: var(--beige); font-size: 0.88rem; font-weight: 400;
+    letter-spacing: 1.2px; text-decoration: none; text-transform: uppercase;
+    position: relative; transition: color 0.25s;
+  }
+  .nav-menu a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px;
+    background: var(--gold); transform: scaleX(0); transition: transform 0.3s;
+    transform-origin: right;
+  }
+  .nav-menu a:hover { color: var(--gold); }
+  .nav-menu a:hover::after { transform: scaleX(1); transform-origin: left; }
+  .nav-cart-btn {
+    background: transparent; border: 1px solid rgba(198,169,110,0.5);
+    color: var(--gold); padding: 8px 20px; border-radius: 2px;
+    font-family: 'Inter', sans-serif; font-size: 0.8rem; letter-spacing: 1.5px;
+    text-transform: uppercase; cursor: pointer; transition: all 0.25s;
+    position: relative;
+  }
+  .nav-cart-btn:hover { background: var(--gold); color: var(--charcoal); }
+  .cart-count {
+    position: absolute; top: -6px; right: -6px;
+    background: var(--gold); color: var(--charcoal);
+    width: 18px; height: 18px; border-radius: 50%;
+    font-size: 0.65rem; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { width: 24px; height: 1.5px; background: var(--gold); display: block; transition: all 0.3s; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; position: relative; display: flex;
+    align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&q=80') center/cover no-repeat;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(28,28,28,0.88) 0%, rgba(28,28,28,0.65) 50%, rgba(44,44,44,0.82) 100%);
+  }
+  .hero-content {
+    position: relative; z-index: 2; text-align: center; padding: 0 5%;
+    max-width: 780px;
+  }
+  .hero-badge {
+    display: inline-block; border: 1px solid rgba(198,169,110,0.45);
+    color: var(--gold); font-size: 0.72rem; letter-spacing: 3.5px;
+    text-transform: uppercase; padding: 8px 22px; margin-bottom: 2rem;
+    opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif; font-size: clamp(3.2rem, 8vw, 6.5rem);
+    font-weight: 700; line-height: 1.06; color: var(--white);
+    margin-bottom: 1.2rem; letter-spacing: 1px;
+    opacity: 0; animation: fadeUp 0.9s 0.4s forwards;
+  }
+  .hero-title span { color: var(--gold); font-style: italic; }
+  .hero-sub {
+    font-family: 'Poppins', sans-serif; font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 300; color: var(--beige); letter-spacing: 2px;
+    margin-bottom: 3rem; opacity: 0; animation: fadeUp 0.9s 0.6s forwards;
+  }
+  .hero-btns {
+    display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.9s 0.8s forwards;
+  }
+  .btn-primary {
+    background: var(--gold); color: var(--charcoal);
+    border: none; padding: 15px 38px; font-family: 'Inter', sans-serif;
+    font-size: 0.82rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .btn-primary::before {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(255,255,255,0.15); transform: translateX(-100%);
+    transition: transform 0.35s;
+  }
+  .btn-primary:hover::before { transform: translateX(100%); }
+  .btn-primary:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(198,169,110,0.35); }
+  .btn-outline {
+    background: transparent; color: var(--beige);
+    border: 1px solid rgba(232,227,220,0.45); padding: 15px 38px;
+    font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 400;
+    letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.3s;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: var(--gray); font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+    opacity: 0; animation: fadeUp 1s 1.2s forwards;
+  }
+  .scroll-line { width: 1px; height: 45px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollAnim 2s infinite; }
+
+  /* SECTIONS */
+  section { padding: 6rem 5%; }
+  .section-tag {
+    color: var(--gold); font-size: 0.72rem; letter-spacing: 4px;
+    text-transform: uppercase; margin-bottom: 1rem; display: block;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 600; line-height: 1.15; color: var(--white); margin-bottom: 1rem;
+  }
+  .section-title em { color: var(--gold); font-style: italic; }
+  .section-line {
+    width: 48px; height: 1px; background: var(--gold);
+    margin-bottom: 3rem; display: block;
+  }
+  .section-header { text-align: center; max-width: 680px; margin: 0 auto 4rem; }
+  .section-header .section-line { margin: 1rem auto 0; }
+
+  /* PRODUCTS */
+  .products-section { background: linear-gradient(180deg, var(--charcoal) 0%, #242424 100%); }
+  .product-tabs {
+    display: flex; gap: 0; justify-content: center; margin-bottom: 3.5rem;
+    border: 1px solid rgba(198,169,110,0.2); width: fit-content; margin: 0 auto 3.5rem;
+    overflow: hidden;
+  }
+  .tab-btn {
+    background: transparent; border: none; color: var(--gray);
+    padding: 12px 28px; font-family: 'Inter', sans-serif; font-size: 0.78rem;
+    font-weight: 500; letter-spacing: 1.8px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.25s; border-right: 1px solid rgba(198,169,110,0.2);
+  }
+  .tab-btn:last-child { border-right: none; }
+  .tab-btn.active { background: var(--gold); color: var(--charcoal); }
+  .tab-btn:not(.active):hover { color: var(--gold); background: rgba(198,169,110,0.08); }
+  .products-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.8rem;
+  }
+  .product-card {
+    background: rgba(44,44,44,0.7); border: 1px solid rgba(198,169,110,0.12);
+    border-radius: 2px; overflow: hidden; transition: all 0.35s;
+    position: relative; cursor: pointer;
+  }
+  .product-card:hover {
+    border-color: rgba(198,169,110,0.55); transform: translateY(-5px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(198,169,110,0.15);
+  }
+  .product-img-wrap {
+    position: relative; overflow: hidden; height: 200px;
+  }
+  .product-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .product-card:hover .product-img-wrap img { transform: scale(1.06); }
+  .product-badge {
+    position: absolute; top: 12px; left: 12px; z-index: 2;
+    font-size: 0.6rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 4px 10px;
+  }
+  .badge-bestseller { background: var(--gold); color: var(--charcoal); }
+  .badge-new { background: rgba(44,44,44,0.9); color: var(--gold); border: 1px solid var(--gold); }
+  .badge-limited { background: #8B3A3A; color: #FFD9D9; }
+  .product-info { padding: 1.2rem 1.3rem 1.4rem; }
+  .product-category { font-size: 0.65rem; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .product-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 600; color: var(--white); margin-bottom: 0.5rem; }
+  .product-price { font-size: 0.95rem; font-weight: 500; color: var(--gold); margin-bottom: 0.8rem; }
+  .product-stars { color: var(--gold); font-size: 0.75rem; margin-bottom: 1rem; letter-spacing: 1px; }
+  .add-cart-btn {
+    width: 100%; background: transparent; border: 1px solid rgba(198,169,110,0.4);
+    color: var(--beige); padding: 10px; font-family: 'Inter', sans-serif;
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 1.8px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.25s;
+  }
+  .add-cart-btn:hover { background: var(--gold); color: var(--charcoal); border-color: var(--gold); }
+  .add-cart-btn.added { background: var(--gold); color: var(--charcoal); border-color: var(--gold); }
+
+  /* ABOUT */
+  .about-section {
+    background: linear-gradient(135deg, #1a1a1a, #252525);
+    border-top: 1px solid rgba(198,169,110,0.12);
+  }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; max-width: 1200px; margin: 0 auto; }
+  .about-img-wrap { position: relative; }
+  .about-img-wrap img { width: 100%; height: 520px; object-fit: cover; border: 1px solid rgba(198,169,110,0.2); }
+  .about-img-wrap::before {
+    content: ''; position: absolute; top: -16px; left: -16px; right: 16px; bottom: 16px;
+    border: 1px solid rgba(198,169,110,0.25); z-index: 0; pointer-events: none;
+  }
+  .about-text { padding: 1rem 0; }
+  .about-text p { color: var(--gray); font-size: 0.95rem; line-height: 1.9; margin-bottom: 1.4rem; }
+  .about-stats { display: flex; gap: 2.5rem; margin-top: 2.5rem; }
+  .stat-item { text-align: center; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; color: var(--gold); display: block; }
+  .stat-label { font-size: 0.7rem; color: var(--gray); letter-spacing: 2px; text-transform: uppercase; }
+
+  /* TEAM */
+  .team-section { background: var(--charcoal2); }
+  .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 2rem; max-width: 1100px; margin: 0 auto; }
+  .team-card {
+    background: rgba(28,28,28,0.8); border: 1px solid rgba(198,169,110,0.12);
+    padding: 2.2rem 1.8rem; text-align: center; transition: all 0.35s; position: relative;
+    overflow: hidden;
+  }
+  .team-card::before {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0); transition: transform 0.4s;
+  }
+  .team-card:hover { border-color: rgba(198,169,110,0.4); transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+  .team-card:hover::before { transform: scaleX(1); }
+  .team-avatar {
+    width: 96px; height: 96px; border-radius: 50%; margin: 0 auto 1.4rem;
+    border: 2px solid rgba(198,169,110,0.4); object-fit: cover;
+    transition: border-color 0.3s;
+  }
+  .team-card:hover .team-avatar { border-color: var(--gold); }
+  .team-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--white); margin-bottom: 0.35rem; }
+  .team-role { font-size: 0.72rem; color: var(--gold); letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 1rem; }
+  .team-bio { font-size: 0.82rem; color: var(--light-gray); line-height: 1.7; }
+
+  /* PAYMENT / CART */
+  .cart-section { background: #1a1a1a; }
+  .cart-wrapper { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 340px; gap: 2.5rem; }
+  .cart-items { background: rgba(44,44,44,0.5); border: 1px solid rgba(198,169,110,0.12); padding: 2rem; }
+  .cart-empty-msg { text-align: center; color: var(--gray); padding: 4rem 0; font-size: 0.9rem; }
+  .cart-item { display: grid; grid-template-columns: 72px 1fr auto; gap: 1.2rem; align-items: center; padding: 1.2rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .cart-item:last-child { border-bottom: none; }
+  .cart-item-img { width: 72px; height: 72px; object-fit: cover; border: 1px solid rgba(198,169,110,0.2); }
+  .cart-item-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--white); margin-bottom: 0.25rem; }
+  .cart-item-price { font-size: 0.8rem; color: var(--gold); }
+  .qty-controls { display: flex; align-items: center; gap: 0; }
+  .qty-btn {
+    background: rgba(198,169,110,0.1); border: 1px solid rgba(198,169,110,0.25);
+    color: var(--gold); width: 28px; height: 28px; cursor: pointer; font-size: 1rem;
+    transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+  }
+  .qty-btn:hover { background: var(--gold); color: var(--charcoal); }
+  .qty-num { width: 36px; text-align: center; font-size: 0.85rem; color: var(--white); background: transparent; border: 1px solid rgba(198,169,110,0.18); border-left: none; border-right: none; height: 28px; padding: 0; }
+  .cart-summary { background: rgba(44,44,44,0.5); border: 1px solid rgba(198,169,110,0.12); padding: 2rem; align-self: start; position: sticky; top: 88px; }
+  .summary-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--white); margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(198,169,110,0.15); }
+  .summary-row { display: flex; justify-content: space-between; margin-bottom: 0.8rem; font-size: 0.85rem; color: var(--gray); }
+  .summary-total { display: flex; justify-content: space-between; padding-top: 1rem; border-top: 1px solid rgba(198,169,110,0.2); margin-top: 0.5rem; margin-bottom: 1.5rem; font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--gold); }
+  .checkout-btn {
+    width: 100%; background: var(--gold); border: none; color: var(--charcoal);
+    padding: 15px; font-family: 'Inter', sans-serif; font-size: 0.82rem;
+    font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.25s;
+  }
+  .checkout-btn:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(198,169,110,0.3); }
+
+  /* PAYMENT METHODS */
+  .payment-section { background: var(--charcoal2); }
+  .payment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; max-width: 900px; margin: 0 auto; }
+  .payment-card {
+    background: rgba(28,28,28,0.8); border: 1px solid rgba(198,169,110,0.15);
+    padding: 2rem 1.5rem; text-align: center; cursor: pointer; transition: all 0.3s;
+  }
+  .payment-card:hover { border-color: var(--gold); transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.35); }
+  .payment-card.selected { border-color: var(--gold); background: rgba(198,169,110,0.08); }
+  .payment-icon { font-size: 2.2rem; margin-bottom: 1rem; }
+  .payment-name { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--white); margin-bottom: 0.4rem; }
+  .payment-desc { font-size: 0.72rem; color: var(--gray); letter-spacing: 1px; }
+
+  /* QRIS */
+  .qris-section { display: none; background: var(--charcoal); text-align: center; }
+  .qris-box {
+    max-width: 420px; margin: 0 auto; background: rgba(44,44,44,0.6);
+    border: 1px solid rgba(198,169,110,0.25); padding: 3rem 2.5rem;
+  }
+  .qris-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--white); margin-bottom: 0.5rem; }
+  .qris-sub { font-size: 0.8rem; color: var(--gray); margin-bottom: 2rem; letter-spacing: 1.5px; }
+  .qr-code-img {
+    width: 200px; height: 200px; background: white;
+    margin: 0 auto 1.5rem;
+    display: flex; align-items: center; justify-content: center;
+    border: 3px solid var(--gold); padding: 8px;
+    position: relative;
+  }
+  .qr-code-img svg { width: 100%; height: 100%; }
+  .qris-total { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); margin-bottom: 0.5rem; }
+  .qris-code { font-size: 0.72rem; color: var(--gray); letter-spacing: 2px; margin-bottom: 1.5rem; }
+  .qris-countdown { font-size: 1.1rem; color: var(--white); margin-bottom: 2rem; }
+  .qris-countdown span { color: var(--gold); font-weight: 600; font-size: 1.4rem; }
+  .confirm-payment-btn {
+    background: var(--gold); border: none; color: var(--charcoal);
+    padding: 14px 40px; font-family: 'Inter', sans-serif; font-size: 0.82rem;
+    font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.25s;
+    width: 100%;
+  }
+  .confirm-payment-btn:hover { background: var(--gold2); }
+
+  /* SUCCESS */
+  .success-section { display: none; background: var(--charcoal); text-align: center; }
+  .success-box { max-width: 480px; margin: 0 auto; padding: 4rem 2rem; }
+  .success-icon {
+    width: 90px; height: 90px; border-radius: 50%;
+    background: rgba(198,169,110,0.1); border: 2px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 2rem; font-size: 2.5rem; animation: scaleIn 0.5s ease;
+  }
+  .success-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--white); margin-bottom: 0.8rem; }
+  .success-sub { color: var(--gray); font-size: 0.9rem; margin-bottom: 2.5rem; line-height: 1.7; }
+  .success-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* INVOICE */
+  .invoice-section { display: none; background: var(--charcoal); }
+  .invoice-box {
+    max-width: 560px; margin: 0 auto; background: #F8F5F0; color: #1C1C1C;
+    border: 1px solid rgba(198,169,110,0.4); padding: 3.5rem;
+  }
+  .invoice-header { text-align: center; border-bottom: 1px solid #d4b87a; padding-bottom: 2rem; margin-bottom: 2rem; }
+  .invoice-logo { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: #8a6835; letter-spacing: 2px; }
+  .invoice-tagline { font-size: 0.72rem; color: #888; letter-spacing: 2px; text-transform: uppercase; margin-top: 0.3rem; }
+  .invoice-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; font-size: 0.8rem; }
+  .invoice-meta-label { font-weight: 600; color: #8a6835; display: block; font-size: 0.68rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 0.2rem; }
+  .invoice-meta-val { color: #444; }
+  .invoice-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; font-size: 0.82rem; }
+  .invoice-table th { text-align: left; padding: 8px 0; border-bottom: 1px solid #d4b87a; font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; color: #8a6835; }
+  .invoice-table td { padding: 10px 0; border-bottom: 1px solid #e8e3dc; color: #444; }
+  .invoice-totals { border-top: 1px solid #d4b87a; padding-top: 1rem; }
+  .invoice-total-row { display: flex; justify-content: space-between; font-size: 0.82rem; color: #666; margin-bottom: 0.5rem; }
+  .invoice-grand { display: flex; justify-content: space-between; font-family: 'Playfair Display', serif; font-size: 1.3rem; color: #8a6835; font-weight: 600; margin-top: 0.8rem; border-top: 1px solid #d4b87a; padding-top: 1rem; }
+  .invoice-footer { text-align: center; margin-top: 2.5rem; font-size: 0.72rem; color: #999; letter-spacing: 1.5px; text-transform: uppercase; }
+  .print-btn {
+    display: block; width: fit-content; margin: 2rem auto 0;
+    background: var(--gold); border: none; color: var(--charcoal);
+    padding: 12px 36px; font-family: 'Inter', sans-serif; font-size: 0.78rem;
+    font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+  }
+
+  /* CONTACT */
+  .contact-section { background: linear-gradient(135deg, #1a1a1a, var(--charcoal2)); border-top: 1px solid rgba(198,169,110,0.1); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 0 auto; }
+  .contact-info p { color: var(--gray); font-size: 0.9rem; line-height: 1.8; margin-bottom: 2rem; }
+  .contact-details { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-item { display: flex; gap: 1rem; align-items: flex-start; }
+  .contact-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+  .contact-text { font-size: 0.82rem; color: var(--beige2); line-height: 1.6; }
+  .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+  .form-group { position: relative; }
+  .form-input {
+    width: 100%; background: rgba(44,44,44,0.5); border: 1px solid rgba(198,169,110,0.18);
+    color: var(--white); padding: 14px 16px; font-family: 'Inter', sans-serif;
+    font-size: 0.85rem; outline: none; transition: border-color 0.25s;
+  }
+  .form-input:focus { border-color: rgba(198,169,110,0.55); }
+  .form-input::placeholder { color: var(--gray); }
+  textarea.form-input { height: 120px; resize: vertical; }
+  .submit-btn {
+    background: var(--gold); border: none; color: var(--charcoal);
+    padding: 14px 40px; font-family: 'Inter', sans-serif; font-size: 0.8rem;
+    font-weight: 700; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.25s;
+    align-self: flex-start;
+  }
+  .submit-btn:hover { background: var(--gold2); transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    background: #151515; border-top: 1px solid rgba(198,169,110,0.15);
+    padding: 3.5rem 5% 2rem; text-align: center;
+  }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--gold); letter-spacing: 3px; margin-bottom: 1rem; }
+  .footer-tagline { font-size: 0.72rem; color: var(--gray); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 2rem; }
+  .footer-links { display: flex; gap: 2rem; justify-content: center; margin-bottom: 2.5rem; }
+  .footer-links a { color: var(--gray); font-size: 0.78rem; text-decoration: none; letter-spacing: 1px; text-transform: uppercase; transition: color 0.25s; }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-copy { font-size: 0.7rem; color: rgba(255,255,255,0.2); letter-spacing: 1px; }
+  .gold-divider { width: 48px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 0 auto 2rem; }
+
+  /* TOAST */
+  .toast {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
+    background: rgba(44,44,44,0.95); border: 1px solid var(--gold);
+    color: var(--white); padding: 14px 22px; font-size: 0.82rem; letter-spacing: 0.5px;
+    backdrop-filter: blur(10px);
+    transform: translateY(100px); opacity: 0; transition: all 0.35s;
+    max-width: 280px;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast span { color: var(--gold); font-weight: 600; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollAnim {
+    0% { transform: scaleY(1); opacity: 1; }
+    100% { transform: scaleY(0.3); opacity: 0; }
+  }
+  @keyframes scaleIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .nav-menu { display: none; }
+    .nav-menu.open { display: flex; flex-direction: column; position: fixed; top: 72px; left: 0; right: 0; background: rgba(28,28,28,0.97); padding: 2rem 5%; gap: 1.5rem; border-bottom: 1px solid rgba(198,169,110,0.2); backdrop-filter: blur(16px); }
+    .hamburger { display: flex; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-img-wrap { display: none; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .cart-wrapper { grid-template-columns: 1fr; }
+    .cart-summary { position: static; }
+  }
+  @media (max-width: 600px) {
+    section { padding: 4rem 5%; }
+    .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+    .team-grid { grid-template-columns: 1fr 1fr; }
+    .footer-links { flex-wrap: wrap; gap: 1.2rem; }
+    .hero-btns { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo" onclick="scrollToSection('hero')">Seiya Coffee</div>
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="#" onclick="scrollToSection('hero')">Beranda</a></li>
+    <li><a href="#" onclick="scrollToSection('products')">Produk</a></li>
+    <li><a href="#" onclick="scrollToSection('cart')">Keranjang</a></li>
+    <li><a href="#" onclick="scrollToSection('about')">Tentang</a></li>
+    <li><a href="#" onclick="scrollToSection('contact')">Kontak</a></li>
+  </ul>
+  <button class="nav-cart-btn" onclick="scrollToSection('cart')">
+    Keranjang
+    <span class="cart-count" id="cartCount">0</span>
+  </button>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Est. 2026 — Jakarta, Indonesia</div>
+    <h1 class="hero-title">Seiya<br><em>Coffee</em></h1>
+    <p class="hero-sub">Luxury Coffee for Every Moment</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="scrollToSection('products')">Belanja Sekarang</button>
+      <button class="btn-outline" onclick="scrollToSection('about')">Lihat Koleksi</button>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products-section" id="products">
+  <div class="section-header fade-in">
+    <span class="section-tag">Koleksi Kami</span>
+    <h2 class="section-title">Crafted with<br><em>Precision & Passion</em></h2>
+    <span class="section-line"></span>
+  </div>
+  <div class="product-tabs">
+    <button class="tab-btn active" onclick="switchTab('coffee', this)">Coffee</button>
+    <button class="tab-btn" onclick="switchTab('noncoffee', this)">Non-Coffee</button>
+    <button class="tab-btn" onclick="switchTab('snack', this)">Snack</button>
+  </div>
+
+  <!-- COFFEE -->
+  <div class="products-grid" id="tab-coffee">
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&q=75" alt="Espresso" loading="lazy">
+        <span class="product-badge badge-bestseller">Best Seller</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Signature Coffee</div>
+        <div class="product-name">Espresso</div>
+        <div class="product-price">Rp 40.000</div>
+        <div class="product-stars">★★★★★</div>
+        <button class="add-cart-btn" onclick="addToCart('Espresso','Rp 40.000',40000,'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=100',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://images.unsplash.com/photo-1551030173-122aabc4489c?w=400&q=75" alt="Americano" loading="lazy">
+        <span class="product-badge badge-new">New Arrival</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Classic Coffee</div>
+        <div class="product-name">Americano</div>
+        <div class="product-price">Rp 48.000</div>
+        <div class="product-stars">★★★★☆</div>
+        <button class="add-cart-btn" onclick="addToCart('Americano','Rp 48.000',48000,'https://images.unsplash.com/photo-1551030173-122aabc4489c?w=100',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&q=75" alt="Cappuccino" loading="lazy">
+        <span class="product-badge badge-bestseller">Best Seller</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Premium Coffee</div>
+        <div class="product-name">Cappuccino</div>
+        <div class="product-price">Rp 55.000</div>
+        <div class="product-stars">★★★★★</div>
+        <button class="add-cart-btn" onclick="addToCart('Cappuccino','Rp 55.000',55000,'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=100',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=400&q=75" alt="Salted Caramel" loading="lazy">
+        <span class="product-badge badge-limited">Limited</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Specialty Coffee</div>
+        <div class="product-name">Salted Caramel</div>
+        <div class="product-price">Rp 60.000</div>
+        <div class="product-stars">★★★★★</div>
+        <button class="add-cart-btn" onclick="addToCart('Salted Caramel','Rp 60.000',60000,'https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=100',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://images.unsplash.com/photo-1561047029-3000c68339ca?w=400&q=75" alt="Café Latte" loading="lazy">
+        <span class="product-badge badge-bestseller">Best Seller</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Classic Coffee</div>
+        <div class="product-name">Café Latte</div>
+        <div class="product-price">Rp 57.000</div>
+        <div class="product-stars">★★★★★</div>
+        <button class="add-cart-btn" onclick="addToCart('Café Latte','Rp 57.000',57000,'https://images.unsplash.com/photo-1561047029-3000c68339ca?w=100',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400&q=75" alt="Vanilla Latte" loading="lazy">
+        <span class="product-badge badge-new">New Arrival</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Signature Coffee</div>
+        <div class="product-name">Vanilla Latte</div>
+        <div class="product-price">Rp 55.000</div>
+        <div class="product-stars">★★★★☆</div>
+        <button class="add-cart-btn" onclick="addToCart('Vanilla Latte','Rp 55.000',55000,'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=100',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://shottbeverages.ph/cdn/shop/articles/Butterscotch_Iced_Coffee_9088e9cf-e0a7-4e63-a104-39cc5a5a5053.png?v=1774434239" alt="Butterscotch" loading="lazy">
+        <span class="product-badge badge-limited">Limited</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Exclusive Series</div>
+        <div class="product-name">Butterscotch</div>
+        <div class="product-price">Rp 68.000</div>
+        <div class="product-stars">★★★★★</div>
+        <button class="add-cart-btn" onclick="addToCart('Butterscotch','Rp 68.000',68000,'https://shottbeverages.ph/cdn/shop/articles/Butterscotch_Iced_Coffee_9088e9cf-e0a7-4e63-a104-39cc5a5a5053.png?v=1774434239',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://arengaindonesia.com/wp-content/uploads/2025/03/Iced-Caramel-Macchiato.jpg" alt="Caramel Macchiato" loading="lazy">
+        <span class="product-badge badge-bestseller">Best Seller</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Premium Coffee</div>
+        <div class="product-name">Caramel Macchiato</div>
+        <div class="product-price">Rp 60.000</div>
+        <div class="product-stars">★★★★★</div>
+        <button class="add-cart-btn" onclick="addToCart('Caramel Macchiato','Rp 60.000',60000,'https://arengaindonesia.com/wp-content/uploads/2025/03/Iced-Caramel-Macchiato.jpg',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NON COFFEE -->
+  <div class="products-grid" id="tab-noncoffee" style="display:none">
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://mocktail.net/wp-content/uploads/2021/05/Matcha-Iced-Latte_ig-1024x1024.jpg" alt="Matcha" loading="lazy">
+        <span class="product-badge badge-bestseller">Best Seller</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Tea Series</div>
+        <div class="product-name">Matcha</div>
+        <div class="product-price">Rp 50.000</div>
+        <div class="product-stars">★★★★★</div>
+        <button class="add-cart-btn" onclick="addToCart('Matcha','Rp 50.000',50000,'https://mocktail.net/wp-content/uploads/2021/05/Matcha-Iced-Latte_ig-1024x1024.jpg',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEScMa2cuk-TkBdomuuD9vDUAsDBAN8OaUPw&s" alt="Almond Choco" loading="lazy">
+        <span class="product-badge badge-new">New Arrival</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Chocolate Series</div>
+        <div class="product-name">Almond Choco</div>
+        <div class="product-price">Rp 55.000</div>
+        <div class="product-stars">★★★★☆</div>
+        <button class="add-cart-btn" onclick="addToCart('Almond Choco','Rp 55.000',55000,'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEScMa2cuk-TkBdomuuD9vDUAsDBAN8OaUPw&s',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://image.idntimes.com/post/20230828/159068461-454155445833961-1801311753966360922-n-b9b4afce4d72eea6998a58b2f045b9a6.jpg" alt="Classic Milo" loading="lazy">
+      </div>
+      <div class="product-info">
+        <div class="product-category">Classic Series</div>
+        <div class="product-name">Classic Milo</div>
+        <div class="product-price">Rp 45.000</div>
+        <div class="product-stars">★★★★☆</div>
+        <button class="add-cart-btn" onclick="addToCart('Classic Milo','Rp 45.000',45000,'https://image.idntimes.com/post/20230828/159068461-454155445833961-1801311753966360922-n-b9b4afce4d72eea6998a58b2f045b9a6.jpg',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&q=75" alt="Lemon Tea" loading="lazy">
+        <span class="product-badge badge-new">New Arrival</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Tea Series</div>
+        <div class="product-name">Lemon Tea</div>
+        <div class="product-price">Rp 38.000</div>
+        <div class="product-stars">★★★★☆</div>
+        <button class="add-cart-btn" onclick="addToCart('Lemon Tea','Rp 38.000',38000,'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=100',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCDOiDAPJP_FgvWeGN1WGY5oSN5l-FwIi5Zw&s" alt="Green Tea Mint" loading="lazy">
+      </div>
+      <div class="product-info">
+        <div class="product-category">Tea Series</div>
+        <div class="product-name">Green Tea Mint</div>
+        <div class="product-price">Rp 42.000</div>
+        <div class="product-stars">★★★★★</div>
+        <button class="add-cart-btn" onclick="addToCart('Green Tea Mint','Rp 42.000',42000,'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCDOiDAPJP_FgvWeGN1WGY5oSN5l-FwIi5Zw&s',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAFVv2ABTiB6jWUW4CWaet-0-ObUeY0QGsdA&s" alt="Jasmine Tea" loading="lazy">
+        <span class="product-badge badge-limited">Limited</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Premium Tea</div>
+        <div class="product-name">Jasmine Tea</div>
+        <div class="product-price">Rp 38.000</div>
+        <div class="product-stars">★★★★☆</div>
+        <button class="add-cart-btn" onclick="addToCart('Jasmine Tea','Rp 38.000',38000,'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAFVv2ABTiB6jWUW4CWaet-0-ObUeY0QGsdA&s',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SNACK -->
+  <div class="products-grid" id="tab-snack" style="display:none">
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://www.garnishwithlemon.com/wp-content/uploads/2023/01/CROFFLES-featured-image.jpg" alt="Croffle" loading="lazy">
+        <span class="product-badge badge-bestseller">Best Seller</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Pastry</div>
+        <div class="product-name">Croffle</div>
+        <div class="product-price">Rp 67.000</div>
+        <div class="product-stars">★★★★★</div>
+        <button class="add-cart-btn" onclick="addToCart('Croffle','Rp 67.000',67000,'https://www.garnishwithlemon.com/wp-content/uploads/2023/01/CROFFLES-featured-image.jpg',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://www.sweeterytoronto.com/wp-content/uploads/2025/03/Churros-Recipe.png" alt="Churros" loading="lazy">
+        <span class="product-badge badge-new">New Arrival</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Pastry</div>
+        <div class="product-name">Churros</div>
+        <div class="product-price">Rp 65.000</div>
+        <div class="product-stars">★★★★☆</div>
+        <button class="add-cart-btn" onclick="addToCart('Churros','Rp 65.000',65000,'https://www.sweeterytoronto.com/wp-content/uploads/2025/03/Churros-Recipe.png',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&q=75" alt="Croissant" loading="lazy">
+        <span class="product-badge badge-bestseller">Best Seller</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Bakery</div>
+        <div class="product-name">Croissant</div>
+        <div class="product-price">Rp 70.000</div>
+        <div class="product-stars">★★★★★</div>
+        <button class="add-cart-btn" onclick="addToCart('Croissant','Rp 70.000',70000,'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=100',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://www.jocooks.com/wp-content/uploads/2022/08/chocolate-waffles-1-4-650x813.jpg" alt="Choco Waffle" loading="lazy">
+        <span class="product-badge badge-limited">Limited</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Waffle</div>
+        <div class="product-name">Choco Waffle</div>
+        <div class="product-price">Rp 55.000</div>
+        <div class="product-stars">★★★★☆</div>
+        <button class="add-cart-btn" onclick="addToCart('Choco Waffle','Rp 55.000',55000,'https://www.jocooks.com/wp-content/uploads/2022/08/chocolate-waffles-1-4-650x813.jpg',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+    <div class="product-card fade-in">
+      <div class="product-img-wrap">
+        <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&q=75" alt="Pancake" loading="lazy">
+        <span class="product-badge badge-new">New Arrival</span>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Pancake</div>
+        <div class="product-name">Pancake</div>
+        <div class="product-price">Rp 60.000</div>
+        <div class="product-stars">★★★★★</div>
+        <button class="add-cart-btn" onclick="addToCart('Pancake','Rp 60.000',60000,'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=100',this)">+ Tambah ke Keranjang</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="about-grid fade-in">
+    <div class="about-img-wrap">
+      <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80" alt="Seiya Coffee Story">
+    </div>
+    <div class="about-text">
+      <span class="section-tag">Our Story</span>
+      <h2 class="section-title">Born from a<br><em>Love for Coffee</em></h2>
+      <span class="section-line"></span>
+      <p>Seiya Coffee lahir dari kecintaan mendalam terhadap seni meracik kopi. Kami percaya bahwa secangkir kopi yang sempurna bukan sekadar minuman — ia adalah sebuah pengalaman yang menghangatkan jiwa dan menginspirasi hari.</p>
+      <p>Sejak 2026, kami berkomitmen menghadirkan kopi berkualitas premium dengan biji pilihan terbaik dari perkebunan nusantara, diseduh dengan teknik presisi oleh barista berpengalaman kami.</p>
+      <div class="about-stats">
+        <div class="stat-item">
+          <span class="stat-num">10+</span>
+          <span class="stat-label">Menu Unggulan</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">5</span>
+          <span class="stat-label">Tim Expert</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Premium Quality</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team-section" id="team">
+  <div class="section-header fade-in">
+    <span class="section-tag">Seiya Coffee Team</span>
+    <h2 class="section-title">Meet The Team<br><em>Behind Seiya Coffee</em></h2>
+    <span class="section-line"></span>
+  </div>
+  <div class="team-grid">
+    <div class="team-card fade-in">
+     <img class="team-avatar" src="nia.jpeg" alt="Natha">
+      <div class="team-name">Nathania</div>
+      <div class="team-role">CEO & Founder</div>
+      <p class="team-bio">Visioner di balik Seiya Coffee. Nathania memimpin dengan semangat dan dedikasi untuk menciptakan pengalaman kopi terbaik di Indonesia.</p>
+    </div>
+    <div class="team-card fade-in">
+      <img class="team-avatar" src="Sabitah.png" alt="Sabitah">
+      <div class="team-name">Sabitah</div>
+      <div class="team-role">Head of Product</div>
+      <p class="team-bio">Arsitek menu Seiya Coffee. Sabitah mengkurasi setiap produk dengan standar kualitas tertinggi dan inovasi rasa yang memukau.</p>
+    </div>
+    <div class="team-card fade-in">
+      <img class="team-avatar" src="Najwa Putri.jpeg" alt="Najwa">
+      <div class="team-name">Najwa Putri</div>
+      <div class="team-role">Tech Lead</div>
+      <p class="team-bio">Otak teknologi Seiya Coffee. Najwa Putri memastikan setiap sistem berjalan sempurna untuk pengalaman belanja yang mudah dan menyenangkan.</p>
+    </div>
+    <div class="team-card fade-in">
+      <img class="team-avatar" src="Zahwa.jpeg" alt="Zahwa">
+      <div class="team-name">Zahwa Ayori</div>
+      <div class="team-role">Creative Director</div>
+      <p class="team-bio">Jiwa kreatif Seiya Coffee. Zahwa Ayori menuangkan estetika luxury dan visual storytelling yang menjadikan caffe shop ini tak terlupakan.</p>
+    </div>
+    <div class="team-card fade-in">
+      <img class="team-avatar" src="Najwa Desmita.jpeg" alt="Zahwa">
+      <div class="team-name">Najwa Desmita</div>
+      <div class="team-role">Admin</div>
+      <p class="team-bio">Jiwa loyalitas Seiya Coffee. Najwa menuangkan keloyalan kepada para pelanggan sehingga caffe shop ini tak terlupakan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CART -->
+<section class="cart-section" id="cart">
+  <div class="section-header fade-in">
+    <span class="section-tag">Your Selection</span>
+    <h2 class="section-title">Keranjang<br><em>Belanja Anda</em></h2>
+    <span class="section-line"></span>
+  </div>
+  <div class="cart-wrapper">
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty-msg" id="cartEmpty">
+        <p style="font-family:'Playfair Display',serif;font-size:1.1rem;color:#888;margin-bottom:0.5rem">Keranjang Anda Kosong</p>
+        <p style="font-size:0.8rem;color:#555">Tambahkan produk untuk melanjutkan</p>
+      </div>
+    </div>
+    <div class="cart-summary">
+      <div class="summary-title">Ringkasan Pesanan</div>
+      <div class="summary-row"><span>Subtotal</span><span id="subtotalVal">Rp 0</span></div>
+      <div class="summary-row"><span>Pajak (10%)</span><span id="taxVal">Rp 0</span></div>
+      <div class="summary-total">
+        <span>Total</span>
+        <span id="totalVal">Rp 0</span>
+      </div>
+      <button class="checkout-btn" onclick="goToPayment()">Checkout Sekarang →</button>
+    </div>
+  </div>
+</section>
+
+<!-- PAYMENT METHODS -->
+<section class="payment-section" id="payment" style="display:none">
+  <div class="section-header fade-in">
+    <span class="section-tag">Pembayaran</span>
+    <h2 class="section-title">Pilih Metode<br><em>Pembayaran</em></h2>
+    <span class="section-line"></span>
+  </div>
+  <div class="payment-grid">
+    <div class="payment-card" onclick="selectPayment('QRIS',this)">
+      <div class="payment-icon">⬛</div>
+      <div class="payment-name">QRIS</div>
+      <div class="payment-desc">Scan & Pay Instant</div>
+    </div>
+    <div class="payment-card" onclick="selectPayment('E-Wallet',this)">
+      <div class="payment-icon">💳</div>
+      <div class="payment-name">E-Wallet</div>
+      <div class="payment-desc">GoPay, OVO, DANA</div>
+    </div>
+    <div class="payment-card" onclick="selectPayment('M-Banking',this)">
+      <div class="payment-icon">📱</div>
+      <div class="payment-name">M-Banking</div>
+      <div class="payment-desc">Transfer Langsung</div>
+    </div>
+    <div class="payment-card" onclick="selectPayment('Virtual Account',this)">
+      <div class="payment-icon">🏦</div>
+      <div class="payment-name">Virtual Account</div>
+      <div class="payment-desc">BCA, BNI, Mandiri</div>
+    </div>
+    <div class="payment-card" onclick="selectPayment('Seiya Coffee',this)">
+      <div class="payment-icon">🏪</div>
+      <div class="payment-name">Seiya Coffee</div>
+      <div class="payment-desc">Cassier</div>
+    </div>
+  </div>
+</section>
+
+<!-- QRIS -->
+<section class="qris-section" id="qris">
+  <div class="section-header fade-in">
+    <span class="section-tag">Scan & Pay</span>
+    <h2 class="section-title">Pembayaran<br><em>QRIS</em></h2>
+    <span class="section-line"></span>
+  </div>
+  <div class="qris-box fade-in">
+    <div class="qris-title">Scan Kode QR</div>
+    <p class="qris-sub">Gunakan aplikasi pembayaran Anda</p>
+    <div class="qr-code-img">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <rect x="5" y="5" width="38" height="38" fill="none" stroke="#1C1C1C" stroke-width="3"/>
+        <rect x="13" y="13" width="22" height="22" fill="#1C1C1C"/>
+        <rect x="57" y="5" width="38" height="38" fill="none" stroke="#1C1C1C" stroke-width="3"/>
+        <rect x="65" y="13" width="22" height="22" fill="#1C1C1C"/>
+        <rect x="5" y="57" width="38" height="38" fill="none" stroke="#1C1C1C" stroke-width="3"/>
+        <rect x="13" y="65" width="22" height="22" fill="#1C1C1C"/>
+        <rect x="57" y="57" width="6" height="6" fill="#1C1C1C"/>
+        <rect x="69" y="57" width="6" height="6" fill="#1C1C1C"/>
+        <rect x="81" y="57" width="14" height="6" fill="#1C1C1C"/>
+        <rect x="57" y="69" width="14" height="6" fill="#1C1C1C"/>
+        <rect x="79" y="69" width="6" height="6" fill="#1C1C1C"/>
+        <rect x="63" y="79" width="6" height="6" fill="#1C1C1C"/>
+        <rect x="75" y="79" width="6" height="14" fill="#1C1C1C"/>
+        <rect x="89" y="75" width="6" height="20" fill="#1C1C1C"/>
+        <rect x="45" y="45" width="6" height="6" fill="#1C1C1C"/>
+      </svg>
+    </div>
+    <div class="qris-total" id="qrisTotal">Rp 0</div>
+    <div class="qris-code" id="qrisCode">TRX-SEIYA-0000000</div>
+    <div class="qris-countdown">Berlaku dalam <span id="countdown">14:59</span></div>
+    <button class="confirm-payment-btn" onclick="confirmPayment()">Konfirmasi Pembayaran</button>
+  </div>
+</section>
+
+<!-- SUCCESS -->
+<section class="success-section" id="success">
+  <div class="success-box fade-in">
+    <div class="success-icon">✓</div>
+    <h2 class="success-title">Pembayaran Berhasil!</h2>
+    <p class="success-sub">Terima kasih telah memesan di Seiya Coffee.<br>Pesanan Anda sedang kami proses dengan penuh cinta.</p>
+    <div class="success-btns">
+      <button class="btn-primary" onclick="belanjaLagi()">Belanja Lagi</button>
+      <button class="btn-outline" onclick="lihatInvoice()">Lihat Invoice</button>
+    </div>
+  </div>
+</section>
+
+<!-- INVOICE -->
+<section class="invoice-section" id="invoice">
+  <div class="invoice-box fade-in" id="invoiceContent">
+    <div class="invoice-header">
+      <div class="invoice-logo">SEIYA COFFEE</div>
+      <div class="invoice-tagline">Luxury Coffee for Every Moment</div>
+    </div>
+    <div class="invoice-meta">
+      <div>
+        <span class="invoice-meta-label">No. Transaksi</span>
+        <div class="invoice-meta-val" id="invCode">—</div>
+      </div>
+      <div>
+        <span class="invoice-meta-label">Tanggal</span>
+        <div class="invoice-meta-val" id="invDate">—</div>
+      </div>
+      <div>
+        <span class="invoice-meta-label">Waktu</span>
+        <div class="invoice-meta-val" id="invTime">—</div>
+      </div>
+      <div>
+        <span class="invoice-meta-label">Metode Pembayaran</span>
+        <div class="invoice-meta-val" id="invMethod">—</div>
+      </div>
+      <div>
+        <span class="invoice-meta-label">Dine in</span>
+        <div class="invoice-meta-val">Seiya Coffe</div>
+      </div>
+    </div>
+    <table class="invoice-table">
+      <thead>
+        <tr>
+          <th>Produk</th>
+          <th style="text-align:center">Qty</th>
+          <th style="text-align:right">Harga</th>
+          <th style="text-align:right">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody id="invItems"></tbody>
+    </table>
+    <div class="invoice-totals">
+      <div class="invoice-total-row"><span>Subtotal</span><span id="invSubtotal">—</span></div>
+      <div class="invoice-total-row"><span>Pajak (10%)</span><span id="invTax">—</span></div>
+      <div class="invoice-grand"><span>Total Pembayaran</span><span id="invTotal">—</span></div>
+    </div>
+    <div class="invoice-footer">
+      Seiya Coffee — Jakarta, Indonesia<br>
+      seiyacoffee@email.com · Instagram @seiyacoffee
+    </div>
+  </div>
+  <button class="print-btn" onclick="window.print()">Cetak Invoice</button>
+  <div style="text-align:center;margin-top:1.5rem">
+    <button class="btn-outline" style="margin:0 auto" onclick="belanjaLagi()">← Kembali Berbelanja</button>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="section-header fade-in">
+    <span class="section-tag">Hubungi Kami</span>
+    <h2 class="section-title">Let's<br><em>Connect</em></h2>
+    <span class="section-line"></span>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info fade-in">
+      <p>Kami selalu senang mendengar dari Anda. Apakah Anda memiliki pertanyaan tentang produk kami, ingin berkolaborasi, atau sekadar ingin berbagi cerita tentang kopi — kami siap mendengarkan.</p>
+      <div class="contact-details">
+        <div class="contact-item">
+          <div class="contact-dot"></div>
+          <div class="contact-text"><strong style="color:#E8E3DC">Lokasi</strong><br>Jakarta, Indonesia</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-dot"></div>
+          <div class="contact-text"><strong style="color:#E8E3DC">Email</strong><br>hello@seiyacoffee.id</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-dot"></div>
+          <div class="contact-text"><strong style="color:#E8E3DC">Instagram</strong><br>@seiyacoffee</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-dot"></div>
+          <div class="contact-text"><strong style="color:#E8E3DC">Jam Operasional</strong><br>Setiap Hari, 07.00 – 22.00 WIB</div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form fade-in">
+      <input type="text" class="form-input" placeholder="Nama Lengkap">
+      <input type="email" class="form-input" placeholder="Alamat Email">
+      <input type="text" class="form-input" placeholder="Subjek">
+      <textarea class="form-input" placeholder="Pesan Anda..."></textarea>
+      <button class="submit-btn" onclick="showToast('Pesan Anda telah terkirim!')">Kirim Pesan →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Seiya Coffee</div>
+  <div class="footer-tagline">Luxury Coffee for Every Moment</div>
+  <div class="gold-divider"></div>
+  <div class="footer-links">
+    <a href="#" onclick="scrollToSection('hero')">Beranda</a>
+    <a href="#" onclick="scrollToSection('products')">Produk</a>
+    <a href="#" onclick="scrollToSection('about')">Tentang</a>
+    <a href="#" onclick="scrollToSection('team')">Tim</a>
+    <a href="#" onclick="scrollToSection('contact')">Kontak</a>
+  </div>
+  <p class="footer-copy">© 2026 Seiya Coffee. All rights reserved. Crafted with love in Jakarta.</p>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // STATE
+  let cart = [];
+  let selectedPayment = null;
+  let countdownInterval = null;
+  let transactionCode = '';
+  let transactionTime = null;
+
+  // NAVBAR SCROLL
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // HAMBURGER
+  function toggleMenu() {
+    document.getElementById('navMenu').classList.toggle('open');
+  }
+
+  // SCROLL TO
+  function scrollToSection(id) {
+    document.getElementById('navMenu').classList.remove('open');
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // FADE IN ON SCROLL
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // TABS
+  function switchTab(tab, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-coffee').style.display = 'none';
+    document.getElementById('tab-noncoffee').style.display = 'none';
+    document.getElementById('tab-snack').style.display = 'none';
+    document.getElementById('tab-' + tab).style.display = 'grid';
+    document.querySelectorAll('#tab-' + tab + ' .fade-in').forEach(el => {
+      el.classList.remove('visible');
+      setTimeout(() => el.classList.add('visible'), 50);
+    });
+  }
+
+  // CART
+  function addToCart(name, price, priceNum, img, btn) {
+    const existing = cart.find(i => i.name === name);
+    if (existing) { existing.qty++; }
+    else { cart.push({ name, price, priceNum, img, qty: 1 }); }
+    updateCart();
+    btn.textContent = '✓ Ditambahkan!';
+    btn.classList.add('added');
+    setTimeout(() => {
+      btn.textContent = '+ Tambah ke Keranjang';
+      btn.classList.remove('added');
+    }, 1800);
+    showToast('<span>' + name + '</span> ditambahkan ke keranjang');
+  }
+
+  function updateCart() {
+    const count = cart.reduce((s, i) => s + i.qty, 0);
+    document.getElementById('cartCount').textContent = count;
+    const container = document.getElementById('cartItems');
+    const emptyMsg = document.getElementById('cartEmpty');
+    if (cart.length === 0) {
+      emptyMsg.style.display = 'block';
+      while (container.children.length > 1) container.removeChild(container.lastChild);
+    } else {
+      emptyMsg.style.display = 'none';
+      while (container.children.length > 1) container.removeChild(container.lastChild);
+      cart.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <img class="cart-item-img" src="${item.img}" alt="${item.name}">
+          <div>
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-price">${item.price}</div>
+          </div>
+          <div>
+            <div class="qty-controls">
+              <button class="qty-btn" onclick="changeQty(${idx},-1)">−</button>
+              <div class="qty-num">${item.qty}</div>
+              <button class="qty-btn" onclick="changeQty(${idx},1)">+</button>
+            </div>
+            <div style="text-align:center;font-size:0.78rem;color:var(--gold);margin-top:6px">${formatRp(item.priceNum * item.qty)}</div>
+          </div>`;
+        container.appendChild(div);
+      });
+    }
+    updateSummary();
+  }
+
+  function changeQty(idx, delta) {
+    cart[idx].qty += delta;
+    if (cart[idx].qty <= 0) cart.splice(idx, 1);
+    updateCart();
+  }
+
+  function updateSummary() {
+    const sub = cart.reduce((s, i) => s + i.priceNum * i.qty, 0);
+    const tax = Math.round(sub * 0.10);
+    const total = sub + tax;
+    document.getElementById('subtotalVal').textContent = formatRp(sub);
+    document.getElementById('taxVal').textContent = formatRp(tax);
+    document.getElementById('totalVal').textContent = formatRp(total);
+  }
+
+  function formatRp(n) {
+    return 'Rp ' + n.toLocaleString('id-ID');
+  }
+
+  // CHECKOUT
+  function goToPayment() {
+    if (cart.length === 0) { showToast('Keranjang masih kosong!'); return; }
+    document.getElementById('payment').style.display = 'block';
+    setTimeout(() => scrollToSection('payment'), 100);
+  }
+
+  function selectPayment(method, card) {
+    selectedPayment = method;
+    document.querySelectorAll('.payment-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    setTimeout(() => showQRIS(), 500);
+  }
+
+  function showQRIS() {
+    transactionCode = 'TRX-SEIYA-' + Math.floor(Math.random() * 9000000 + 1000000);
+    transactionTime = new Date();
+    const sub = cart.reduce((s, i) => s + i.priceNum * i.qty, 0);
+    const total = sub + (sub > 0 ? 15000 : 0) + Math.round(sub * 0.05);
+    document.getElementById('qrisTotal').textContent = formatRp(total);
+    document.getElementById('qrisCode').textContent = transactionCode;
+    document.getElementById('qris').style.display = 'block';
+    document.getElementById('payment').style.display = 'none';
+    startCountdown(15 * 60);
+    setTimeout(() => scrollToSection('qris'), 100);
+  }
+
+  function startCountdown(seconds) {
+    if (countdownInterval) clearInterval(countdownInterval);
+    const el = document.getElementById('countdown');
+    let remaining = seconds;
+    const tick = () => {
+      const m = Math.floor(remaining / 60), s = remaining % 60;
+      el.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+      if (remaining <= 0) { clearInterval(countdownInterval); el.textContent = '00:00'; }
+      remaining--;
+    };
+    tick();
+    countdownInterval = setInterval(tick, 1000);
+  }
+
+  function confirmPayment() {
+    if (countdownInterval) clearInterval(countdownInterval);
+    document.getElementById('qris').style.display = 'none';
+    document.getElementById('success').style.display = 'block';
+    setTimeout(() => scrollToSection('success'), 100);
+  }
+
+  function lihatInvoice() {
+    const now = transactionTime || new Date();
+    const sub = cart.reduce((s, i) => s + i.priceNum * i.qty, 0);
+    const ship = sub > 0 ? 15000 : 0;
+    const tax = Math.round(sub * 0.05);
+    const total = sub + ship + tax;
+    document.getElementById('invCode').textContent = transactionCode;
+    document.getElementById('invDate').textContent = now.toLocaleDateString('id-ID', {day:'2-digit',month:'long',year:'numeric'});
+    document.getElementById('invTime').textContent = now.toLocaleTimeString('id-ID');
+    document.getElementById('invMethod').textContent = selectedPayment || 'QRIS';
+    document.getElementById('invSubtotal').textContent = formatRp(sub);
+    document.getElementById('invTax').textContent = formatRp(tax);
+    document.getElementById('invTotal').textContent = formatRp(total);
+    const tbody = document.getElementById('invItems');
+    tbody.innerHTML = '';
+    cart.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${item.name}</td><td style="text-align:center">${item.qty}</td><td style="text-align:right">${item.price}</td><td style="text-align:right">${formatRp(item.priceNum * item.qty)}</td>`;
+      tbody.appendChild(tr);
+    });
+    document.getElementById('success').style.display = 'none';
+    document.getElementById('invoice').style.display = 'block';
+    setTimeout(() => scrollToSection('invoice'), 100);
+  }
+
+  function belanjaLagi() {
+    cart = [];
+    updateCart();
+    document.getElementById('success').style.display = 'none';
+    document.getElementById('invoice').style.display = 'none';
+    document.getElementById('qris').style.display = 'none';
+    document.getElementById('payment').style.display = 'none';
+    scrollToSection('products');
+  }
+
+  // TOAST
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.innerHTML = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // INIT
+  updateCart();
+  setTimeout(() => {
+    document.querySelectorAll('.fade-in').forEach(el => {
+      if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('visible');
+    });
+  }, 200);
+</script>
+</body>
+</html>
